@@ -31,16 +31,17 @@ const closeIssue = id => {
 
 const deleteIssue = id => {
   const issues = JSON.parse(localStorage.getItem('issues'));
-  const remainingIssues = issues.filter( issue.id !== id )
+  const remainingIssues = issues.filter(issue => issue.id !== id)
   localStorage.setItem('issues', JSON.stringify(remainingIssues));
+  location.reload()
 }
 
 const fetchIssues = () => {
   const issues = JSON.parse(localStorage.getItem('issues'));
   const issuesList = document.getElementById('issuesList');
   issuesList.innerHTML = '';
-
-  for (var i = 0; i < issues.length; i++) {
+  // console.table(issues)
+  for (let i = 0; i < issues.length; i++) {
     const {id, description, severity, assignedTo, status} = issues[i];
 
     issuesList.innerHTML +=   `<div class="well">
@@ -50,7 +51,7 @@ const fetchIssues = () => {
                               <p><span class="glyphicon glyphicon-time"></span> ${severity}</p>
                               <p><span class="glyphicon glyphicon-user"></span> ${assignedTo}</p>
                               <a href="#" onclick="setStatusClosed(${id})" class="btn btn-warning">Close</a>
-                              <a href="#" onclick="deleteIssue(${id})" class="btn btn-danger">Delete</a>
+                              <a href="#" onclick="deleteIssue('${id}')" class="btn btn-danger">Delete</a>
                               </div>`;
   }
 }
